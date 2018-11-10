@@ -1,32 +1,60 @@
-.App {
-  text-align: center;
+.app {
+    padding: 5px 50px;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
+.container {
+    display: flex;
+    flex-direction: row;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.create .input {
+    margin-right: 50px;
 }
 
-.App-link {
-  color: #61dafb;
+.textarea {
+    display: block;
+    max-height: 500px;
+    min-height: 100px;
+    padding: 8px;
+    resize: vertical;
+    width: 100%;
+    background-color: #fff;
+    background-position: right 8px center;
+    background-repeat: no-repeat;
+    border: 1px solid #d1d5da;
+    border-bottom-color: rgb(209, 213, 218);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    box-shadow: inset 0 1px 2px rgba(27, 31, 35, .075);
+    color: #24292e;
+    font-size: 16px;
+    line-height: 20px;
+    min-height: 34px;
+    outline: none;
+    padding: 6px 8px;
+    margin-bottom: 10px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.btn {
+    padding: 10px 30px;
+}
+
+.notes {
+    max-height: 400px;
+    width: 600px;
+    padding: 0 30px 5px 30px;
+    border: 1px solid #d1d5da;
+    overflow: scroll;
+}
+
+.notes .note:not(:first-child) {
+    padding-top: 0px;
+    border-top: 1px solid black;
+}
+
+.note {
+    padding: 5px 0;
 }
