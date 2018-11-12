@@ -6,6 +6,7 @@ import uuidv1 from "uuid/v1";
 import { format } from "date-fns";
 import { flow, sortBy, reverse } from "lodash/fp";
 import Notifications, { notify } from "react-notify-toast";
+import 'spectre.css';
 
 import "./App.css";
 
@@ -30,6 +31,7 @@ export default class App extends React.Component {
     grateful: "",
     monthly: store.get('monthly'),
     weekly: store.get('weekly'),
+    daily: store.get('daily'),
     posts: store.get('posts'),
   }
 
@@ -148,16 +150,23 @@ export default class App extends React.Component {
         <div className="notes">
           {$notes}
         </div>
+        <button className="btn" onClick={() => store.clearAll()}>
+          Clear
+        </button>
       </div>
     )
   }
     
+
+  renderHighlight = () => {
+    return 'hola'
+  }
+
   renderObjectives = () => {
-    const { monthly, weekly } = this.state;
+    const { daily, monthly, weekly } = this.state;
 
     return (
-      <form onSubmit={this.updateObjectives}>
-        <p>
+      <div>
           <label>Monthly objective:</label>
           <input
             type="text"
@@ -165,8 +174,6 @@ export default class App extends React.Component {
             value={monthly}
             onChange={this.handleChange}
           />
-          <button onClick={this.updateObjectives}>Update</button>
-        </p>
         <p>
           <label>Weekly objective:</label>
           <input
@@ -175,9 +182,8 @@ export default class App extends React.Component {
             value={weekly}
             onChange={this.handleChange}
           />
-          <button onClick={this.updateObjectives}>Update</button>
         </p>
-      </form>
+      </div>
     )
   }
 
@@ -187,55 +193,34 @@ export default class App extends React.Component {
     const $objectives = this.renderObjectives();
 
     return (
-      <>
-      <Notifications options={NOTIFICATION_OPTIONS} />
-      <div className="app">
-        {$header}
-        {$objectives}
-        <div className="container">
-          <div className="create">
-            <div className="input">
-              <h2>Day review</h2>
-              <textarea 
-                id="markdown-text"
-                name="text"
-                cols="60"
-                rows="8"
-                className="textarea day"
-                placeholder="Write about your day..."
-                onChange={this.handleChange}
-                value={this.state.text} 
-              />
-              <div>
-              <h2>Gratefulness</h2>
-              <textarea
-                id="markdown-grateful"
-                name="grateful"
-                cols="60"
-                rows="5"
-                className="textarea day"
-                placeholder="What are you grateful for?"
-                onChange={this.handleChange}
-                value={this.state.grateful} 
-              />
-               <h2>Progress</h2>
-               <p>Did you achieved the daily objective?</p>
-               <p>Did you make progress towars the weekly/monthly objective?</p>
-              <button type="submit" className="btn" onClick={this.handleSavePost}>
-                Publish
-              </button>
-              <p>
-                <button className="btn" onClick={() => store.clearAll()}>
-                  Clear
-                </button>
-              </p>
+    <div className="app">
+        <Notifications options={NOTIFICATION_OPTIONS} />
+        <div className=" container">
+          {$header}
+          <div className="columns">
+            <div className="column col-3">
+              <h4>Highlight</h4>
+              {this.renderHighlight('daily')}
+              {this.renderHighlight('weekly')}
+              {this.renderHighlight('monthly')}
+            </div>
+            <div className="column col-9">
+              <div className="input">
+                <h2>Day review</h2>
+                <textarea id="markdown-text" name="text" cols="60" rows="8" className="textarea day" placeholder="Write about your day..." onChange={this.handleChange} value={this.state.text} />
+                <div>
+                  <h2>Gratefulness</h2>
+                  <textarea id="markdown-grateful" name="grateful" cols="60" rows="5" className="textarea day" placeholder="What are you grateful for?" onChange={this.handleChange} value={this.state.grateful} />
+                  <button type="submit" className="btn btn-primary" onClick={this.handleSavePost}>
+                    Publish
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        {$list}
-        </div>
       </div>
-    </>
     )
+      
   }
 }
