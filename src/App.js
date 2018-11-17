@@ -29,9 +29,21 @@ export default class App extends React.Component {
   state = {
     text: "",
     grateful: "",
-    monthly: store.get('monthly'),
-    weekly: store.get('weekly'),
-    daily: store.get('daily'),
+    tomorrow: "",
+    highlight: {
+      daily: {
+        active: false,
+        value: store.get('daily'),
+      },
+      weekly: {
+        active: false,
+        value: store.get('weekly'),
+      },
+      monthly: {
+        active: false,
+        value: store.get('monthly'),
+      }
+    },
     posts: store.get('posts'),
   }
 
@@ -43,14 +55,22 @@ export default class App extends React.Component {
     }
   }
 
+  hancleChangeHighlight = (e) => {
+    const { name, value} = e.currentTarget;
+    this.setState(state => ({ 
+      ...state,
+      highlight: {
+        ...state.highlight,
+        [name]: {
+          active: !state.highlight[name].active,
+          value: state.highlight[name].value
+        }
+      }})
+    );
+  }
+
   handleChange = (e) => {
     const { name, value} = e.currentTarget;
-
-    console.log("name");
-    console.log(name)
-    console.log("value");
-    console.log(value);
-
     this.setState({ [name]: value });
   }
 
@@ -158,8 +178,21 @@ export default class App extends React.Component {
   }
     
 
-  renderHighlight = () => {
-    return 'hola'
+  renderHighlight = (type) => {
+    return <div className="highlight-block">
+        <p className="highlight-block__title">{type}</p>
+        <div className="form-group">
+          <label className="form-checkbox">
+            <input 
+              type="checkbox" 
+              name={type} 
+              onChange={this.hancleChangeHighlight} 
+              value={this.state.highlight[type].active}
+            />
+            <i className="form-icon" /> {this.state.highlight[type].value}
+          </label>
+        </div>
+      </div>;
   }
 
   renderObjectives = () => {
@@ -207,10 +240,38 @@ export default class App extends React.Component {
             <div className="column col-9">
               <div className="input">
                 <h2>Day review</h2>
-                <textarea id="markdown-text" name="text" cols="60" rows="8" className="textarea day" placeholder="Write about your day..." onChange={this.handleChange} value={this.state.text} />
+                <textarea
+                  id="markdown-text"
+                  name="text"
+                  cols="60"
+                  rows="8"
+                  className="textarea day"
+                  placeholder="Write about your day..."
+                  onChange={this.handleChange}
+                  value={this.state.text}
+                />
                 <div>
                   <h2>Gratefulness</h2>
-                  <textarea id="markdown-grateful" name="grateful" cols="60" rows="5" className="textarea day" placeholder="What are you grateful for?" onChange={this.handleChange} value={this.state.grateful} />
+                  <textarea
+                    id="markdown-grateful"
+                    name="grateful"
+                    cols="60"
+                    rows="5"
+                    className="textarea day"
+                    placeholder="What are you grateful for?"
+                    onChange={this.handleChange}
+                    value={this.state.grateful} 
+                  />
+                  <h2>Tomorrow's Highlight</h2>
+                  <textarea
+                    id="tomorrow"
+                    name="tomorrow"
+                    rows="1"
+                    className="textarea day"
+                    placeholder="What are you focusing on?"
+                    onChange={this.handleChange}
+                    value={this.state.tomorrow} 
+                  />
                   <button type="submit" className="btn btn-primary" onClick={this.handleSavePost}>
                     Publish
                   </button>

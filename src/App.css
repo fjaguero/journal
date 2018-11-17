@@ -48,3 +48,22 @@
 .note {
     padding: 5px 0;
 }
+
+.highlight-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.highlight-block__title {
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 300;
+    text-transform: uppercase;
+    color: #4A4A4A;
+}
+
+.highlight-block__checkbox {
+    margin-right: 10px;
+}
